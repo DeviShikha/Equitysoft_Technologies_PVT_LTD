@@ -1,4 +1,3 @@
-// lib/screens/favourites_screen.dart
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../provider/weather_provider.dart';
@@ -20,7 +19,6 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
     final favs = prov.favourites;
 
     return Scaffold(
-      // Gradient AppBar for a premium feel
       appBar: AppBar(
         elevation: 0,
         title: const Text('Favourites'),
@@ -50,7 +48,6 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
               ? _buildEmptyState(context)
               : RefreshIndicator(
                   onRefresh: () async {
-                    // small refresh - no-op other than forcing provider to notify
                     prov.notifyListeners();
                   },
                   child: ListView.separated(
@@ -114,7 +111,6 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
                 });
                 try {
                   await prov.fetchByCity(city);
-                  // After fetching, go back to home (Home will update via provider)
                   Navigator.of(context).pop();
                 } finally {
                   if (mounted) {
@@ -133,7 +129,6 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
           ),
           child: Row(
             children: [
-              // Left avatar with first letter
               Container(
                 width: 56,
                 height: 56,
@@ -154,7 +149,6 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
 
               const SizedBox(width: 12),
 
-              // City text and subtitle
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -174,7 +168,6 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
                 ),
               ),
 
-              // Favourite icon (toggles) and optional loading spinner
               if (isLoadingThis) ...[
                 SizedBox(width: 8),
                 const SizedBox(width: 24, height: 24, child: CircularProgressIndicator(strokeWidth: 2)),

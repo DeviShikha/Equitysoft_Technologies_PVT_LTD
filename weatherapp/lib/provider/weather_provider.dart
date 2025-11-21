@@ -28,7 +28,6 @@ class WeatherProvider with ChangeNotifier {
   List<String> _favourites = [];
   List<String> get favourites => _favourites;
 
-  // expose last city for UI usage
   String? get lastCity => _lastCity;
 
   WeatherProvider() {
@@ -38,14 +37,11 @@ class WeatherProvider with ChangeNotifier {
   Future<void> _loadPreferences() async {
     final prefs = await SharedPreferences.getInstance();
 
-    // basic prefs
     _isCelsius = prefs.getBool('isCelsius') ?? true;
     _lastCity = prefs.getString('lastCity');
 
-    // load favourites (added here)
     _favourites = prefs.getStringList('favourites') ?? [];
 
-    // Load cached weather model if present
     final cached = prefs.getString('cached_weather_model');
     if (cached != null) {
       try {
@@ -65,7 +61,6 @@ class WeatherProvider with ChangeNotifier {
       }
     }
 
-    // Load cached forecast if present
     final cachedForecast = prefs.getString('cached_forecast');
     if (cachedForecast != null) {
       try {
@@ -88,7 +83,6 @@ class WeatherProvider with ChangeNotifier {
       }
     }
 
-    // If we have a lastCity and the app just started, try fetch (non-blocking so cached shows quickly)
     if (_lastCity != null && _lastCity!.isNotEmpty) {
       fetchByCity(_lastCity!, useCache: true);
     } else {
@@ -125,7 +119,6 @@ Future<void> removeFavourite(String city) async {
     notifyListeners();
   }
 
-  /// Save cache helper: saves a minimal weather model and forecast list
   Future<void> _saveCache() async {
     if (_weather == null) return;
     final prefs = await SharedPreferences.getInstance();
@@ -174,14 +167,12 @@ Future<void> removeFavourite(String city) async {
       final w = await _service.fetchWeatherByCity(city);
       _weather = w;
 
-      // Fetch 7-day forecast
       try {
         _forecast = await _service.fetch7DayForecast(w.lat, w.lon);
       } catch (_) {
         _forecast = null;
       }
 
-      // Save cache after successful fetches
       await _saveCache();
     } on CityNotFoundException catch (e) {
       _error = 'City not found: ${e.city}. Please check the spelling.';
@@ -214,21 +205,18 @@ Future<void> removeFavourite(String city) async {
       _weather = w;
       _lastCity = w.cityName;
 
-      // Fetch 7-day forecast
       try {
         _forecast = await _service.fetch7DayForecast(w.lat, w.lon);
       } catch (_) {
         _forecast = null;
       }
 
-      // Save cache after successful fetches
       await _saveCache();
     } on InvalidApiKeyException {
       _error = 'Invalid API key. Please set a valid API key in constants.';
     } on NetworkException catch (e) {
       _error = e.message;
     } on Exception catch (e) {
-      // LocationService throws generic Exceptions for permission issues
       final msg = e.toString();
       if (msg.contains('denied')) {
         _error =
@@ -245,18 +233,13 @@ Future<void> removeFavourite(String city) async {
     }
   }
 
-  // Refresh latest weather:
-  // - If a last searched city exists, re-fetch that city.
-  // - Else if we have a current weather object, re-fetch its city.
-  // - Else do nothing (optionally you could call fetchByLocation()).
+ 
   Future<void> refresh() async {
     if (_lastCity != null && _lastCity!.isNotEmpty) {
       await fetchByCity(_lastCity!);
     } else if (_weather != null && _weather!.cityName.isNotEmpty) {
       await fetchByCity(_weather!.cityName);
     } else {
-      // nothing to refresh — optionally fetch by location:
-      // await fetchByLocation();
       return;
     }
   }

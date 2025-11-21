@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:weatherapp/Modle/forecast.dart';
-// import '../models/forecast.dart';
 import 'package:intl/intl.dart';
 
 class ForecastList extends StatelessWidget {
@@ -19,7 +18,7 @@ class ForecastList extends StatelessWidget {
         itemBuilder: (context, i) {
           final f = list[i];
           final date = DateTime.fromMillisecondsSinceEpoch(f.dt * 1000);
-          final day = DateFormat.E().format(date); // Mon, Tue...
+          final day = DateFormat.E().format(date); 
           final temp = isCelsius ? f.tempDay : (f.tempDay * 9 / 5) + 32;
           final iconUrl = 'http://openweathermap.org/img/wn/${f.icon}@2x.png';
 

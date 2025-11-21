@@ -33,7 +33,6 @@ class DailyForecast {
     );
   }
 
-  /// Optional helper for loading from the cached-map shape we store in SharedPreferences
   factory DailyForecast.fromJsonForCache(Map<String, dynamic> m) {
     return DailyForecast(
       dt: (m['dt'] ?? 0) as int,

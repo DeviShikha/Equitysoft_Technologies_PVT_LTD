@@ -28,7 +28,6 @@ class WeatherCard extends StatelessWidget {
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                // Weather Icon
                 Container(
                   width: 80,
                   height: 80,
@@ -51,7 +50,6 @@ class WeatherCard extends StatelessWidget {
 
                 const SizedBox(width: 12),
 
-                // City + Description
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -74,7 +72,6 @@ class WeatherCard extends StatelessWidget {
                   ),
                 ),
 
-                // ⭐️ FAVOURITE BUTTON (PUT HERE)
                 IconButton(
                   icon: Icon(
                     prov.favourites.contains(w.cityName)
@@ -98,7 +95,6 @@ class WeatherCard extends StatelessWidget {
 
             const SizedBox(height: 12),
 
-            // Temperature
             Text(
               '${temp.toStringAsFixed(1)} $unit',
               style:
@@ -107,7 +103,6 @@ class WeatherCard extends StatelessWidget {
 
             const SizedBox(height: 8),
 
-            // Bottom info columns (humidity, wind, feels)
             Row(
               children: [
                 Expanded(child: _InfoColumn(label: 'Humidity', value: '${w.humidity}%')),

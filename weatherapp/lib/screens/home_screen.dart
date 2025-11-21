@@ -66,7 +66,6 @@ class _HomeScreenState extends State<HomeScreen> {
     },
   ),
 
-  // ⭐ FAVOURITES BUTTON → Add here
   IconButton(
     icon: Icon(Icons.star, color: Colors.white),
     onPressed: () {
@@ -85,14 +84,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
       body: Stack(
         children: [
-        // decoration: BoxDecoration(
-        //   gradient: LinearGradient(
-        //     begin: Alignment.topCenter,
-        //     end: Alignment.bottomCenter,
-        //     colors: [Colors.blue.shade600, Colors.blue.shade200],
-        //   ),
-        // ),
-         // Background image or fallback color
           Positioned.fill(
             child: prov.weather != null
                 ? Image.asset(
@@ -103,7 +94,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 : Container(color: Colors.blue.shade600),
           ),
 
-          // Dark overlay to improve readability of foreground UI
           Positioned.fill(
             child: Container(
               color: Colors.black.withOpacity(0.28),
@@ -114,7 +104,6 @@ class _HomeScreenState extends State<HomeScreen> {
             padding: const EdgeInsets.all(16.0),
             child: Column(
               children: [
-                // Search row
                 Row(
                   children: [
                     Expanded(
@@ -156,12 +145,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 SizedBox(height: 18),
 
-                // Main content with pull-to-refresh
                 Expanded(
                   child: RefreshIndicator(
                     onRefresh: () => prov.refresh(),
                     child: prov.loading
-                        // while loading, show a scrollable so RefreshIndicator can appear
                         ? ListView(
                             physics: const AlwaysScrollableScrollPhysics(),
                             children: const [
@@ -170,7 +157,6 @@ class _HomeScreenState extends State<HomeScreen> {
                             ],
                           )
                         : prov.error != null
-                        // show an error card inside a scrollable to allow pull-to-refresh
                         ? ListView(
                             physics: const AlwaysScrollableScrollPhysics(),
                             padding: const EdgeInsets.symmetric(vertical: 40),
@@ -207,7 +193,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                             icon: Icon(Icons.refresh),
                                             label: Text('Retry'),
                                             onPressed: () {
-                                              // retry best action
                                               if (prov.lastCity != null &&
                                                   prov.lastCity!.isNotEmpty) {
                                                 prov.fetchByCity(
@@ -220,7 +205,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                               } else {
                                                 prov.fetchByCity(
                                                   'Delhi',
-                                                ); // fallback
+                                                ); 
                                               }
                                             },
                                           ),
@@ -264,7 +249,6 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                             ],
                           )
-                        // empty state also scrollable so pull-to-refresh works
                         : prov.weather == null
                         ? ListView(
                             physics: const AlwaysScrollableScrollPhysics(),
@@ -286,14 +270,12 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                             ],
                           )
-                        // successful state: scrollable content with weather + unit toggle
                         : SingleChildScrollView(
                             physics: const AlwaysScrollableScrollPhysics(),
                             child: Column(
                               children: [
                                 WeatherCard(),
                                 SizedBox(height: 18),
-                                // <-- Forecast: show only when provider has forecast data
                                 if (prov.forecast != null &&
                                     prov.forecast!.isNotEmpty) ...[
                                   ForecastList(
@@ -303,7 +285,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                   SizedBox(height: 18),
                                 ],
 
-                                // Unit toggle
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
@@ -341,7 +322,8 @@ class _HomeScreenState extends State<HomeScreen> {
     if (city.isNotEmpty) {
       prov.fetchByCity(city);
       FocusScope.of(context).unfocus();
-      _cityController.clear(); // <-- clear the TextField after searching
+      _cityController.clear(); 
+      
     }
   }
 }

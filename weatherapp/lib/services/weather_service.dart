@@ -9,8 +9,6 @@ import '../constants.dart';
 class WeatherService {
   final String _apiKey = OPENWEATHER_API_KEY;
 
-  // Add method inside WeatherService class
-  /// Fetch OneCall forecast (7 day) by coords
   Future<List<DailyForecast>> fetch7DayForecast(double lat, double lon) async {
     final uri = Uri.https('api.openweathermap.org', '/data/2.5/onecall', {
       'lat': lat.toString(),
@@ -54,7 +52,6 @@ class WeatherService {
       } else if (res.statusCode == 401) {
         throw InvalidApiKeyException();
       } else {
-        // parse possible message from API
         String msg = 'Unexpected error (code: ${res.statusCode})';
         try {
           final body = jsonDecode(res.body);
@@ -105,7 +102,6 @@ class WeatherService {
   }
 }
 
-// Exceptions
 class CityNotFoundException implements Exception {
   final String city;
   CityNotFoundException(this.city);

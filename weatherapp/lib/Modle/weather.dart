@@ -1,4 +1,3 @@
-// lib/Modle/weather.dart (modify existing)
 class Weather {
   final String cityName;
   final double tempC;
